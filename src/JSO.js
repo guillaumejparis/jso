@@ -92,6 +92,15 @@ class JSO extends EventEmitter {
 		return authorization + '|' + client_id
 	}
 
+  /**
+   * If the callback is for a refresh token, call this.
+   * @return {[type]} [description]
+   */
+  processRefreshTokenResponse(atoken, providerID) {
+    utils.log("processTokenResponse ", atoken, "")
+    return this.processReceivedToken(atoken, {providerID})
+  }
+
 	/**
 	 * If the callback has already successfully parsed a token response, call this.
 	 * @return {[type]} [description]
@@ -259,7 +268,7 @@ class JSO extends EventEmitter {
 	 * childbrowser when the jso context is not receiving the response,
 	 * instead the response is received on a child browser.
 	 */
-	callback(data) {
+	callback(data, providerID) {
 
     let response = null
     if (typeof data === 'object') {
@@ -275,9 +284,10 @@ class JSO extends EventEmitter {
 
     utils.log('Receving response in callback', response)
 
-		if (response.hasOwnProperty("access_token")) {
+    if (response.hasOwnProperty("refresh")) {
+      return this.processRefreshTokenResponse(response, providerID)
+    } else if (response.hasOwnProperty("access_token")) {
 			return this.processTokenResponse(response)
-
     // Implementation of authorization code flow is in beta.
 		} else if (response.hasOwnProperty("code")) {
       return this.processAuthorizationCodeResponse(response)
