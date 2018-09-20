@@ -120,6 +120,12 @@ class Store {
 		return tokens[0]
 	};
 
+  getRefreshToken(provider, scopes) {
+    var tokens = this.getTokens(provider)
+    if (tokens.length < 1) return null
+    return tokens[0]
+  };
+
 }
 
 var s = new Store()

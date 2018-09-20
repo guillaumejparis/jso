@@ -382,6 +382,13 @@ class JSO extends EventEmitter {
 		return this.store.getToken(this.providerID, scopesRequire)
 	}
 
+  checkRefreshToken(opts) {
+    // var scopesRequest  = this._getRequestScopes(opts)
+
+    var scopesRequire = this._getRequiredScopes(opts)
+    return this.store.getRefreshToken(this.providerID, scopesRequire)
+  }
+
 
 	/**
 	 * Send authorization request.
