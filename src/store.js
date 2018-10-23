@@ -117,13 +117,13 @@ class Store {
 		var tokens = this.getTokens(provider)
 		tokens = this.filterTokens(tokens, scopes)
 		if (tokens.length < 1) return null
-		return tokens[0]
+		return tokens[tokens.length - 1]
 	};
 
   getRefreshToken(provider, scopes) {
     var tokens = this.getTokens(provider)
     if (tokens.length < 1) return null
-    return tokens[0]
+    return tokens[tokens.length - 1]
   };
 
 }
